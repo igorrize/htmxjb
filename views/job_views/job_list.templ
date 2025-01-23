@@ -1,0 +1,56 @@
+package job_views
+
+import (
+  "github.com/igorrize/htmxjb/services"
+  "github.com/igorrize/htmxjb/views/layout"
+
+  "strconv"
+  "strings"
+)
+
+templ JobList(titlePage string, jobs []services.Job) {
+    <div class="flex justify-between max-w-2xl mx-auto border-b border-b-slate-600 mb-8 pb-2">
+        <h1 class="text-2xl font-bold text-center">
+            { strings.Trim(titlePage, "| ") }
+        </h1>
+        <a hx-swap="transition:true" class="badge badge-info p-4 hover:scale-[1.1]" href="/job/create">
+            New
+        </a>
+    </div>
+    <section class="overflow-auto max-w-2xl max-h-96 mx-auto bg-slate-600 rounded-lg shadow-xl">
+        <table class="table table-zebra">
+            <thead class="bg-slate-700">
+                <tr>
+                    <th></th>
+                    <th>Title</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            if len(jobs) != 0 {
+                <tbody>
+                    for _, job := range jobs {
+                        <tr>
+                            <th>{ strconv.Itoa(job.ID) }</th>
+                            <td>{ job.Title }</td>
+                            <td>{ job.Description }</td>
+                        </tr>
+                    }
+                </tbody>
+            } else {
+                <tbody>
+                    <tr>
+                        <td colspan="3" align="center">
+                            No jobs available
+                        </td>
+                    </tr>
+                </tbody>
+            }
+        </table>
+    </section>
+}
+
+templ JobIndex(title string, cmp templ.Component) { 
+@layout.Base(title) {
+        @cmp
+    }
+}

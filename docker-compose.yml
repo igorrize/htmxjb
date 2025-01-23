@@ -1,0 +1,10 @@
+services:
+  app:
+    build: .
+    volumes:
+      - ./:/go/src/app
+      - ./data:/go/src/app/data
+    ports:
+      - "8080:8080"
+    environment: 
+      - "DB_PATH=/go/src/app/data/database.sqlite"
