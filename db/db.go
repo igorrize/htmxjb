@@ -3,9 +3,10 @@ package db
 import (
 	"database/sql"
 	"fmt"
-	"log"
-
 	_ "github.com/mattn/go-sqlite3"
+	"log"
+	"os"
+	"path/filepath"
 )
 
 type Store struct {
@@ -13,13 +14,18 @@ type Store struct {
 }
 
 func NewStore(dbName string) (Store, error) {
+	if err := os.MkdirAll("data", 0755); err != nil {
+		return Store{}, fmt.Errorf("failed to create data directory: %w", err)
+	}
+
 	dbPath := filepath.Join("data", dbName)
+
 	Db, err := getConnection(dbPath)
 	if err != nil {
 		return Store{}, err
 	}
 
-	if err := createMigrations(dbName, Db); err != nil {
+	if err := createMigrations(dbPath, Db); err != nil {
 		return Store{}, err
 	}
 
@@ -58,7 +64,7 @@ func createMigrations(dbName string, db *sql.DB) error {
 		created_at DATETIME default CURRENT_TIMESTAMP
 	);`
 
-  _, err := db.Exec(stmt)
+	_, err := db.Exec(stmt)
 	if err != nil {
 		return err
 	}

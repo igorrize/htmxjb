@@ -29,20 +29,28 @@ func Base(title string) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<!doctype html><html lang=\"en\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><meta name=\"description\" content=\"Go/Echo+Templ+Htmx: Full stack application using Golang&#39;s Echo framework &amp; Templ templating language with user session management + CRUD to a SQLite database (To Do List) and HTMX in the frontend\"><meta name=\"google\" content=\"notranslate\"><link rel=\"shortcut icon\" href=\"/static/img/templ.png\" type=\"image/png\"><link rel=\"stylesheet\" href=\"/static/css/main.css\" type=\"text/css\"><title>Job List ")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<!doctype html><html lang=\"en\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><meta name=\"description\" content=\"Go/Echo+Templ+Htmx: Full stack application using Golang&#39;s Echo framework &amp; Templ templating language with user session management + CRUD to a SQLite database (To Do List) and HTMX in the frontend\"><meta name=\"google\" content=\"notranslate\"><link rel=\"shortcut icon\" href=\"/public/img/templ.png\" type=\"image/png\"><link rel=\"stylesheet\" href=\"/public/css/output.css\" type=\"text/css\"><title>Job List ")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var2 string
 		templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(title)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/layout/base.layout.templ`, Line: 16, Col: 26}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/layout/base.layout.templ`, Line: 16, Col: 35}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "</title><script src=\"/static/js/htmx.min.js\"></script><script src=\"/static/js/hyperscript.min.js\"></script></head><body class=\"sample-transition\" hx-boost=\"true\"><header></header></body></html>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "</title><script src=\"/public/js/htmx.min.js\"></script><script src=\"/public/js/hyperscript.min.js\"></script></head><body class=\"sample-transition\" hx-boost=\"true\"><header></header><main>")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templ_7745c5c3_Var1.Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "</main><footer></footer></body></html>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
