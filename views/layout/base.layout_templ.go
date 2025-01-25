@@ -29,7 +29,7 @@ func Base(title string) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<!doctype html><html lang=\"en\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><meta name=\"description\" content=\"Go/Echo+Templ+Htmx: Full stack application using Golang&#39;s Echo framework &amp; Templ templating language with user session management + CRUD to a SQLite database (To Do List) and HTMX in the frontend\"><meta name=\"google\" content=\"notranslate\"><link rel=\"shortcut icon\" href=\"/public/img/templ.png\" type=\"image/png\"><link rel=\"stylesheet\" href=\"/public/css/output.css\" type=\"text/css\"><title>Job List ")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<!doctype html><html lang=\"en\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><meta name=\"description\" content=\"Go/Echo+Templ+Htmx: Full stack application using Golang&#39;s Echo framework &amp; Templ templating language with user session management + CRUD to a SQLite database (To Do List) and HTMX in the frontend\"><meta name=\"google\" content=\"notranslate\"><link rel=\"shortcut icon\" href=\"/tailwind/public/img/templ.png\" type=\"image/png\"><link rel=\"stylesheet\" href=\"/tailwind/public/css/output.css\" type=\"text/css\"><title>Job List ")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -42,7 +42,7 @@ func Base(title string) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "</title><script src=\"/public/js/htmx.min.js\"></script><script src=\"/public/js/hyperscript.min.js\"></script></head><body class=\"sample-transition\" hx-boost=\"true\"><header></header><main>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "</title><script src=\"/assets/js/htmx.min.js\"></script><script src=\"/assets/js/hyperscript.min.js\"></script></head><body class=\"sample-transition\" hx-boost=\"true\"><header></header><main>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

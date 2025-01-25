@@ -6,8 +6,12 @@ COPY tailwind/tailwind.config.js ./
 COPY tailwind/base.css ./
 COPY ./assets ./assets
 
+# Создаем директорию и проверяем её создание
+RUN mkdir -p public/css && ls -la public/css
 RUN npm install
 RUN npm run build:css
+# Проверяем, создался ли файл
+RUN ls -la public/css/output.css
 
 FROM golang:1.23-alpine AS builder
 
@@ -30,12 +34,18 @@ COPY . .
 # Generate templ files
 RUN templ generate
 
-# Copy CSS from first stage
+# Создаем директорию public и копируем CSS
 RUN mkdir -p public/css
 COPY --from=css-builder /build/public/css/output.css ./public/css/
+# Проверяем копирование
+RUN ls -la public/css/output.css
 
-# Setup user and permissions
+# Настраиваем права доступа для public
 RUN addgroup -S appuser && adduser -S -G appuser appuser
+RUN chown -R appuser:appuser public && \
+    chmod -R 755 public
+
+# Остальные настройки...
 RUN mkdir -p /go/src/app/data && \
     chown -R appuser:appuser /go/src/app/data && \
     chmod 750 /go/src/app/data
@@ -48,6 +58,7 @@ RUN touch /go/src/app/data/jobs.db && \
     chown appuser:appuser /go/src/app/data/jobs.db && \
     chmod 640 /go/src/app/data/jobs.db
 
+RUN ls -la /go/src/app/tailwind/public/css/output.css
 # Install air for hot reload
 RUN go install github.com/air-verse/air@latest
 

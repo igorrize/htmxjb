@@ -16,8 +16,9 @@ func main() {
 
 	e := echo.New()
 
-	e.Static("/static", "assets")
+	e.Static("/tailwind/public", "./tailwind/public")
 
+	e.Static("/assets", "./assets")
 	// Helpers Middleware
 	e.Use(middleware.Logger())
 
@@ -27,10 +28,10 @@ func main() {
 	}
 
 	js := services.NewJobServices(services.Job{}, store)
-  jh := handlers.NewJobHandler(js)
+	jh := handlers.NewJobHandler(js)
 	// Setting Routes
 	handlers.SetupRoutes(e, jh)
 
 	// Start Server
-  e.Logger.Fatal(e.Start(":8080"))
+	e.Logger.Fatal(e.Start(":8080"))
 }
