@@ -2,8 +2,9 @@ package services
 
 import (
 	"fmt"
-	"github.com/igorrize/htmxjb/db"
 	"time"
+
+	"github.com/igorrize/htmxjb/db"
 )
 
 type Job struct {
@@ -11,9 +12,10 @@ type Job struct {
     Title       string    `json:"title"`
     Description string    `json:"description,omitempty"`
     CreatedAt   time.Time `json:"created_at,omitempty"`
+    UpdatedAt   time.Time `json:"updated_at,omitempty"`
     Type        string    `json:"type"`          
     Location    string    `json:"location"`       
-    Salary      string    `json:"salary"`         
+    Salary      string    `json:"salary"`        
     IsNew       bool      `json:"is_new"`         
     Company     string    `json:"company"`        
     Tags        []string  `json:"tags,omitempty"` 
