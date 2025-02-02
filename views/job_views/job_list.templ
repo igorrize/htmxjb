@@ -1,56 +1,67 @@
 package job_views
 
 import (
-  "github.com/igorrize/htmxjb/services"
-  "github.com/igorrize/htmxjb/views/layout"
-
-  "strconv"
-  "strings"
+    "github.com/igorrize/htmxjb/services"
+    "github.com/igorrize/htmxjb/views/layout"
 )
 
 templ JobList(titlePage string, jobs []services.Job) {
-    <div class="flex justify-between max-w-2xl mx-auto border-b border-b-slate-600 mb-8 pb-2">
-        <h1 class="text-2xl font-bold text-center">
-            { strings.Trim(titlePage, "| ") }
-        </h1>
-        <a hx-swap="transition:true" class="badge badge-info p-4 hover:scale-[1.1]" href="/job/create">
-            New
-        </a>
+    <div class="navbar bg-base-100 mb-4">
+        <div class="flex-1">
+            <a class="btn btn-ghost text-xl">Job Board</a>
+        </div>
+        <div class="flex-none gap-2">
+            <div class="form-control">
+                <input type="text" placeholder="Search jobs..." class="input input-bordered w-24 md:w-auto" />
+            </div>
+        </div>
     </div>
-    <section class="overflow-auto max-w-2xl max-h-96 mx-auto bg-slate-600 rounded-lg shadow-xl">
-        <table class="table table-zebra">
-            <thead class="bg-slate-700">
-                <tr>
-                    <th></th>
-                    <th>Title</th>
-                    <th>Description</th>
-                </tr>
-            </thead>
-            if len(jobs) != 0 {
-                <tbody>
-                    for _, job := range jobs {
-                        <tr>
-                            <th>{ strconv.Itoa(job.ID) }</th>
-                            <td>{ job.Title }</td>
-                            <td>{ job.Description }</td>
-                        </tr>
-                    }
-                </tbody>
-            } else {
-                <tbody>
-                    <tr>
-                        <td colspan="3" align="center">
-                            No jobs available
-                        </td>
-                    </tr>
-                </tbody>
-            }
-        </table>
-    </section>
+
+    <div class="drawer lg:drawer-open">
+        <input id="my-drawer" type="checkbox" class="drawer-toggle" />
+        
+        <div class="drawer-side">
+            <label for="my-drawer" class="drawer-overlay"></label>
+            <ul class="menu p-4 w-80 min-h-full bg-base-200">
+                <li class="menu-title">Filters</li>
+                <div class="join join-vertical">
+                    <input class="join-item btn" type="radio" name="type" aria-label="Remote" />
+                    <input class="join-item btn" type="radio" name="type" aria-label="Full-time" />
+                    <input class="join-item btn" type="radio" name="type" aria-label="Contract" />
+                </div>
+            </ul>
+        </div>
+
+        <div class="drawer-content p-4">
+            <div class="grid gap-4">
+                for _, job := range jobs {
+                    <div class="card bg-base-100 shadow-xl">
+                        <div class="card-body">
+                            <h2 class="card-title">{ job.Title }</h2>
+                            <p>{ job.Description }</p>
+                            <div class="card-actions justify-between items-center">
+                                <div class="flex gap-2">
+                                    <div class="badge badge-outline">{ job.Type }</div>
+                                    <div class="badge badge-primary">{ job.Location }</div>
+                                    if job.IsNew {
+                                        <div class="badge badge-secondary">New</div>
+                                    }
+                                </div>
+                                <div class="flex items-center gap-4">
+                                    <span class="text-lg font-semibold">{ job.Salary }</span>
+                                    <button class="btn btn-primary">Apply Now</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
 }
 
-templ JobIndex(title string, cmp templ.Component) { 
-@layout.Base(title) {
+templ JobIndex(title string, cmp templ.Component) {
+    @layout.Base(title) {
         @cmp
     }
 }
