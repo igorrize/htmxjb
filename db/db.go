@@ -9,29 +9,42 @@ import (
 	"path/filepath"
 )
 
-type Store struct {
+type SQLiteStore struct {
 	Db *sql.DB
 }
 
-func NewStore(dbName string) (Store, error) {
+type Store interface {
+	Query(query string, args ...interface{}) (*sql.Rows, error)
+	QueryRow(query string, args ...interface{}) *sql.Row
+	Close() error
+}
+
+func NewStore(dbName string) (SQLiteStore, error) {
 	if err := os.MkdirAll("data", 0755); err != nil {
-		return Store{}, fmt.Errorf("failed to create data directory: %w", err)
+		return SQLiteStore{}, fmt.Errorf("failed to create data directory: %w", err)
 	}
 
 	dbPath := filepath.Join("data", dbName)
 
 	Db, err := getConnection(dbPath)
 	if err != nil {
-		return Store{}, err
+		return SQLiteStore{}, err
 	}
 
 	if err := createMigrations(dbPath, Db); err != nil {
-		return Store{}, err
+		return SQLiteStore{}, err
 	}
 
-	return Store{
+	return SQLiteStore{
 		Db,
 	}, nil
+}
+
+func (s *SQLiteStore) Close() error {
+	if s.Db == nil {
+		return fmt.Errorf("database connection is not initialized")
+	}
+	return s.Db.Close()
 }
 
 func getConnection(dbName string) (*sql.DB, error) {
@@ -75,8 +88,10 @@ func createMigrations(dbName string, db *sql.DB) error {
 			stmt: `
 				CREATE TABLE IF NOT EXISTS jobs (
 					id INTEGER PRIMARY KEY AUTOINCREMENT,
-					created_by INTEGER NOT NULL,
+					type INTEGER NOT NULL,
 					title VARCHAR(64) NOT NULL,
+          source INTEGER NOT NULL,
+          external_id INTEGER NOT NULL,
 					description VARCHAR(255) NULL,
 					created_at DATETIME default CURRENT_TIMESTAMP);`,
 		},
