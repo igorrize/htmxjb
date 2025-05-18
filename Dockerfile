@@ -36,7 +36,7 @@ RUN touch /go/src/app/data/jobs.db && \
 # Install air for hot reload
 RUN go install github.com/air-verse/air@latest
 
-EXPOSE 8082
+EXPOSE 8080
 
 USER appuser
 
